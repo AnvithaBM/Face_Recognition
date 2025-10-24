@@ -61,7 +61,9 @@ class HyperspectralFaceAuthenticator:
             )
         
         print(f"Loading model from {self.model_path}...")
-        model = tf.keras.models.load_model(self.model_path)
+        # Use safe_mode=False to allow loading Lambda layers with custom functions
+        # This is needed for L2 normalization layer
+        model = tf.keras.models.load_model(self.model_path, safe_mode=False)
         print(f"Model loaded successfully. Input shape: {model.input_shape}")
         return model
     
