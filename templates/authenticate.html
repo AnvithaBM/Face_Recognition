@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authenticate - Face Authentication</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>User Authentication</h1>
+            <p class="subtitle">Verify your identity using face recognition</p>
+            <a href="/" class="back-link">← Back to Home</a>
+        </header>
+        
+        <main>
+            <div class="auth-container">
+                <div class="camera-section">
+                    <video id="video" autoplay playsinline></video>
+                    <canvas id="canvas" style="display: none;"></canvas>
+                </div>
+                
+                <div class="controls">
+                    <button id="startCamera" class="btn btn-primary">Start Camera</button>
+                    <button id="authenticateBtn" class="btn btn-secondary" disabled>Authenticate</button>
+                </div>
+                
+                <div id="result" class="result-section"></div>
+            </div>
+            
+            <div class="instructions">
+                <h3>Instructions</h3>
+                <ul>
+                    <li>Click "Start Camera" to access webcam</li>
+                    <li>Position your face in the center of the frame</li>
+                    <li>Click "Authenticate" to verify your identity</li>
+                    <li>The system will match your face against registered users</li>
+                    <li>You will see your identity and confidence score if matched</li>
+                </ul>
+            </div>
+        </main>
+        
+        <footer>
+            <p>Face Authentication System - Authentication</p>
+        </footer>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/camera.js') }}"></script>
+    <script>
+        initializeAuthentication();
+    </script>
+</body>
+</html>

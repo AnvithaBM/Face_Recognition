@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Face Authentication</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>User Registration</h1>
+            <p class="subtitle">Capture multiple face images to register</p>
+            <a href="/" class="back-link">← Back to Home</a>
+        </header>
+        
+        <main>
+            <div class="registration-container">
+                <div class="form-section">
+                    <div class="form-group">
+                        <label for="userId">User ID:</label>
+                        <input type="text" id="userId" placeholder="Enter unique user ID" required>
+                    </div>
+                    
+                    <div class="camera-section">
+                        <video id="video" autoplay playsinline></video>
+                        <canvas id="canvas" style="display: none;"></canvas>
+                    </div>
+                    
+                    <div class="controls">
+                        <button id="startCamera" class="btn btn-primary">Start Camera</button>
+                        <button id="captureBtn" class="btn btn-secondary" disabled>Capture Image (<span id="captureCount">0</span>/5)</button>
+                        <button id="registerBtn" class="btn btn-success" disabled>Register User</button>
+                    </div>
+                    
+                    <div id="message" class="message"></div>
+                </div>
+                
+                <div class="preview-section">
+                    <h3>Captured Images</h3>
+                    <div id="imagePreview" class="image-grid"></div>
+                    <button id="clearBtn" class="btn btn-danger" style="display: none;">Clear All</button>
+                </div>
+            </div>
+            
+            <div class="instructions">
+                <h3>Instructions</h3>
+                <ul>
+                    <li>Enter a unique User ID</li>
+                    <li>Click "Start Camera" to access webcam</li>
+                    <li>Capture at least 3 images (up to 5 recommended)</li>
+                    <li>Vary your pose slightly between captures for better accuracy</li>
+                    <li>Click "Register User" when done</li>
+                </ul>
+            </div>
+        </main>
+        
+        <footer>
+            <p>Face Authentication System - Registration</p>
+        </footer>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/camera.js') }}"></script>
+    <script>
+        initializeRegistration();
+    </script>
+</body>
+</html>
