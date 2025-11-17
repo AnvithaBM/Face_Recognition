@@ -77,6 +77,24 @@ python app.py
 
 The application will be available at `http://localhost:5000`
 
+**Note**: By default, debug mode is disabled for security. To enable debug mode for development:
+
+```bash
+# Linux/Mac
+export FLASK_DEBUG=True
+python app.py
+
+# Windows (CMD)
+set FLASK_DEBUG=True
+python app.py
+
+# Windows (PowerShell)
+$env:FLASK_DEBUG="True"
+python app.py
+```
+
+**Warning**: Never enable debug mode in production environments as it can allow arbitrary code execution.
+
 ### Step 4: Use the Application
 
 #### Registration
