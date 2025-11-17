@@ -207,6 +207,52 @@ If you see "Feature extractor not found" error:
 2. Run `python save_model.py` to create the feature extractor
 3. Check that `feature_extractor.h5` exists in the project directory
 
+### Model Loading Error: "file signature not found"
+This error occurs when there's a mismatch between the model format and Keras version:
+
+**Quick Fix:**
+```bash
+# Try renaming the file extension
+mv best_model.h5 best_model.keras
+python save_model.py
+```
+
+**Detailed Solutions:**
+
+1. **Keras 3.x vs 2.x Format Issue**
+   - Keras 3.x uses a new native format (`.keras` extension)
+   - If trained with Keras 3.x, the file might be incompatible with older versions
+   - Solution: Ensure your training and deployment environments use compatible Keras versions
+   
+2. **Re-save the model in the correct format**
+   In your Jupyter notebook, add this code after training:
+   ```python
+   # For Keras 2.x / TensorFlow 2.x (HDF5 format)
+   model.save('best_model.h5', save_format='h5')
+   
+   # OR for Keras 3.x (native format)
+   model.save('best_model.keras')
+   ```
+
+3. **Check Keras version compatibility**
+   ```bash
+   python -c "import tensorflow as tf; print('TensorFlow:', tf.__version__)"
+   python -c "import keras; print('Keras:', keras.__version__)"
+   ```
+
+4. **Use model checkpoint from notebook**
+   - Look for `best_face_recognition_model.keras` file
+   - Check if ModelCheckpoint callback saved it in a different location
+
+5. **Verify file integrity**
+   ```bash
+   # Check file size (should be > 1 MB for this model)
+   ls -lh best_model.h5
+   
+   # Check if it's a valid HDF5 file
+   python -c "import h5py; f = h5py.File('best_model.h5', 'r'); print('Valid HDF5'); f.close()"
+   ```
+
 ### Camera Access Issues
 If the webcam doesn't work:
 1. Ensure your browser has permission to access the camera

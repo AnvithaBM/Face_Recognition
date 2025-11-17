@@ -29,7 +29,44 @@ def create_feature_extractor(model_path='best_model.h5', output_path='feature_ex
     
     try:
         print(f"Loading model from {model_path}...")
-        full_model = load_model(model_path)
+        
+        # Try loading with different methods based on file format
+        full_model = None
+        load_error = None
+        
+        # First, try standard load
+        try:
+            full_model = load_model(model_path)
+        except (OSError, IOError) as e:
+            if "file signature not found" in str(e):
+                load_error = e
+                print(f"\nWarning: Standard HDF5 loading failed: {e}")
+                print("Attempting to load as Keras 3.x format...")
+                
+                # Try loading with compile=False for Keras 3.x models
+                try:
+                    full_model = load_model(model_path, compile=False)
+                    print("Successfully loaded with compile=False")
+                except Exception as e2:
+                    print(f"Failed to load with compile=False: {e2}")
+                    
+                    # Try renaming and loading as .keras
+                    keras_path = model_path.replace('.h5', '.keras')
+                    if keras_path != model_path and not os.path.exists(keras_path):
+                        print(f"\nAttempting to load as .keras format...")
+                        try:
+                            import shutil
+                            shutil.copy(model_path, keras_path)
+                            full_model = load_model(keras_path, compile=False)
+                            print(f"Successfully loaded as .keras format!")
+                            model_path = keras_path  # Update model path for reference
+                        except Exception as e3:
+                            print(f"Failed to load as .keras: {e3}")
+            else:
+                raise
+        
+        if full_model is None:
+            raise Exception(f"Could not load model. Original error: {load_error}")
         
         print("\nModel architecture:")
         full_model.summary()
@@ -73,6 +110,25 @@ def create_feature_extractor(model_path='best_model.h5', output_path='feature_ex
         print(f"\nError creating feature extractor: {e}")
         import traceback
         traceback.print_exc()
+        
+        print("\n" + "="*70)
+        print("TROUBLESHOOTING TIPS:")
+        print("="*70)
+        print("\n1. Check if your model file is corrupted:")
+        print("   - File size should be reasonable (> 1 MB)")
+        print("   - Try re-training and saving the model")
+        print("\n2. If you get 'file signature not found' error:")
+        print("   - Your model might be in Keras 3.x format")
+        print("   - Try renaming: best_model.h5 -> best_model.keras")
+        print("   - Or re-save using: model.save('best_model.h5', save_format='h5')")
+        print("\n3. Check your Keras/TensorFlow version:")
+        print("   - Run: python -c \"import tensorflow as tf; print(tf.__version__)\"")
+        print("   - Keras 3.x uses a different format than Keras 2.x")
+        print("\n4. Alternative: Use the notebook checkpoint file")
+        print("   - Look for 'best_face_recognition_model.keras' in your directory")
+        print("   - Or check for checkpoint files in the notebook")
+        print("="*70)
+        
         return False
 
 if __name__ == '__main__':
