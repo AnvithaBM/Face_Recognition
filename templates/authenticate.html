@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authenticate - Face Authentication</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Face Authentication</h1>
+            <a href="/" class="back-link">← Back to Home</a>
+        </header>
+        
+        <main>
+            <div class="form-container">
+                <div class="camera-container">
+                    <video id="video" autoplay playsinline></video>
+                    <canvas id="canvas" style="display: none;"></canvas>
+                    <div id="resultOverlay" class="result-overlay"></div>
+                </div>
+                
+                <div class="controls">
+                    <button id="startCamera" class="btn btn-primary">Start Camera</button>
+                    <button id="authenticateBtn" class="btn btn-success" disabled>Authenticate</button>
+                </div>
+                
+                <div id="message" class="message"></div>
+                
+                <div id="result" class="result-card" style="display: none;">
+                    <h3>Authentication Result</h3>
+                    <div id="resultContent"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/authenticate.js') }}"></script>
+</body>
+</html>

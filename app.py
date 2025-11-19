@@ -74,9 +74,9 @@ def apply_gabor_transform(image, kernels):
     channel_g = np.mean(gabor_features[2:], axis=0)
     channel_b = np.std(gabor_features, axis=0)
     
-    channel_r = cv2.normalize(channel_r, None, 0, 255, cv2.CV_MINMAX).astype(np.uint8)
-    channel_g = cv2.normalize(channel_g, None, 0, 255, cv2.CV_MINMAX).astype(np.uint8)
-    channel_b = cv2.normalize(channel_b, None, 0, 255, cv2.CV_MINMAX).astype(np.uint8)
+    channel_r = cv2.normalize(channel_r, None, 0, 255, cv2.NORM_MINMAX).astype(np.uint8)
+    channel_g = cv2.normalize(channel_g, None, 0, 255, cv2.NORM_MINMAX).astype(np.uint8)
+    channel_b = cv2.normalize(channel_b, None, 0, 255, cv2.NORM_MINMAX).astype(np.uint8)
     
     gabor_image = np.stack([channel_r, channel_g, channel_b], axis=-1)
     
@@ -140,6 +140,14 @@ def cosine_similarity(a, b):
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/register')
+def register_page():
+    return render_template('register.html')
+
+@app.route('/authenticate')
+def authenticate_page():
+    return render_template('authenticate.html')
 
 @app.route('/register', methods=['POST'])
 def register_user():
