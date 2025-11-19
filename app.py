@@ -141,6 +141,14 @@ def cosine_similarity(a, b):
 def index():
     return render_template('index.html')
 
+@app.route('/register')
+def register_page():
+    return render_template('register.html')
+
+@app.route('/authenticate')
+def authenticate_page():
+    return render_template('authenticate.html')
+
 @app.route('/register', methods=['POST'])
 def register_user():
     data = request.json
