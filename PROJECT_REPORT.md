@@ -2454,3 +2454,42 @@ python app.py
 - Date: November 2025
 - Supervisor: Dr. B. H. Shekar
 - Project Type: Bachelor's Degree Final Year Project
+
+
+---
+
+## Converting this Report to PDF
+
+This Markdown document can be converted to PDF using various tools:
+
+### Method 1: Using Pandoc (Recommended)
+```bash
+pandoc PROJECT_REPORT.md -o PROJECT_REPORT.pdf \
+  --pdf-engine=xelatex \
+  --toc \
+  --number-sections \
+  --highlight-style=tango \
+  -V geometry:margin=1in \
+  -V fontsize=11pt \
+  -V documentclass=report
+```
+
+### Method 2: Using Markdown to PDF converters
+- **VS Code:** Install "Markdown PDF" extension
+- **Online Tools:** https://md2pdf.netlify.app/ or similar
+- **Python:** Use `markdown-pdf` or `weasyprint` libraries
+
+### Method 3: Via HTML
+```bash
+pandoc PROJECT_REPORT.md -o PROJECT_REPORT.html
+# Then print to PDF from browser
+```
+
+### Formatting Notes
+- The `<div style="page-break-after: always;"></div>` tags create page breaks
+- Code blocks are syntax highlighted
+- Tables and lists are properly formatted
+- Images can be added by replacing placeholders in Appendix B
+
+**Expected Output:** 50-75 page PDF document suitable for academic submission
+
